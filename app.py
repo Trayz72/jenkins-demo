@@ -29,11 +29,20 @@ def login():
 
     if request.method == "POST":
         username = request.form.get("username")
-        logger.info(f"Login attempt for user: {username}")
-    else:
-        logger.info("Login page accessed")
+        password = request.form.get("password")
 
+        logger.info(f"Login attempt for user: {username}")
+
+        if username == "admin" and password == "secret":
+            logger.info("Login successful")
+            return "<h1>Login successful!</h1>"
+        else:
+            logger.warning("Login failed")
+            return "<h1>Invalid credentials</h1>"
+
+    logger.info("Login page accessed")
     return render_template("login.html")
+
 
 if __name__ == "__main__":
     logger.info("Starting Flask application")
