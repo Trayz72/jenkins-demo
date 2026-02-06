@@ -40,12 +40,16 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 
+
 FROM python:3.10-slim AS runtime
 
 WORKDIR /app
 
-RUN pip install --no-cache-dir flask
+# Copy requirements and install ALL runtime deps
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy only runtime files
 COPY app.py .
 COPY templates ./templates
 

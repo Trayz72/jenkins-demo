@@ -73,8 +73,8 @@ pipeline {
                 sh '''
                   echo "Deploying application with Prometheus & Grafana..."
 
-                  docker-compose down || true
-                  docker-compose up -d
+                    docker compose down || true
+                    docker compose up -d
                 '''
             }
         }
@@ -97,7 +97,10 @@ pipeline {
 
     post {
         always {
-            sh 'docker logout || true'
+            sh '''
+               docker logout || true
+               docker system prune -f || true   
+            '''
         }
         success {
             echo '✅ Tests passed, image pushed, app deployed with monitoring!'
